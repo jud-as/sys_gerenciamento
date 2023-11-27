@@ -13,6 +13,8 @@ class UserController:
     def createGasto(self, novo_gasto):
         novo_gasto.inserir_gasto()
         
-        
+    def atualizar_valor_sala(self):
+        sala = Salas(None)
+        sala.valor_total_sala()
          
 

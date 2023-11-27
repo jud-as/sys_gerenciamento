@@ -10,17 +10,13 @@ def case1():
     
 def case2():
     user_controller = UserController()
-    info_gasto_dict = {
-        'id_sala': None, 
-        'data_vencimento': None,
-        'valor': None,
-        'categoria': None,
-        'descricao': None 
-    }
-    info_gasto = Gastos(**info_gasto_dict)
-    info_gasto.solicitar_infos_gasto()
+    info_gasto = Gastos(id_sala=input("SALA REFERENTE AO GASTO: "),
+                        data_vencimento=input("DATA DE VENCIMENTO: "),
+                        valor=input("VALOR: "),
+                        categoria=input("CATEGORIA: "),
+                        descricao=input("DESCRIÇÃO: "))
     user_controller.createGasto(info_gasto)
-    
+    user_controller.atualizar_valor_sala()
     
 def case3():
     print("listar registros")
