@@ -1,7 +1,7 @@
 from classes import SwitchCase
 from database.user_controler import UserController
 from models.gastos import Gastos
-
+from excel_integration import excel_connection
 
 def case1():
     nome_sala = input("Digite a identificação da sala: ")
@@ -19,16 +19,24 @@ def case2():
     user_controller.atualizar_valor_sala()
     
 def case3():
-    print("listar registros")
+    opc = 0
+    bridge = excel_connection.Bridge('C:/Users/guilh/OneDrive/Área de Trabalho/Serial Experiments/python/sys_gerenciamento/excel_integration/teste.xlsx', 'mysql+mysqlconnector://root:''@localhost/sysgerenciamento')
+    bridge.exportar_excel_para_sql('gasto')
+    
 
+def case4():
+    bridge = excel_connection.Bridge('C:/Users/guilh/OneDrive/Área de Trabalho/Serial Experiments/python/sys_gerenciamento/excel_integration/teste.xlsx', 'mysql+mysqlconnector://root:''@localhost/sysgerenciamento')
+    bridge.exportar_sql_para_excel('gasto')
+    
+    
 switcher = SwitchCase()
 switcher.add_case(1, case1)
 switcher.add_case(2, case2)
 switcher.add_case(3, case3)
+switcher.add_case(4, case4)
+opcoes_validas = [1, 2, 3, 4]
 
-opcoes_validas = [1, 2, 3]
-
-print("1 - Adicionar sala.\n2 - Adicionar Gasto.\n3 - Listar Registros.")
+print("1 - Adicionar sala.\n2 - Adicionar Gasto.\n3 - Exportar Registros\n4 - Listar Registros.")
 
 while True:
     try:

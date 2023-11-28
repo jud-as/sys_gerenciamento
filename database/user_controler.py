@@ -16,5 +16,6 @@ class UserController:
     def atualizar_valor_sala(self):
         sala = Salas(None)
         sala.valor_total_sala()
+    
          
 
