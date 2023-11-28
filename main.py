@@ -2,7 +2,7 @@ from classes import SwitchCase
 from database.user_controler import UserController
 from models.gastos import Gastos
 
-    
+
 def case1():
     nome_sala = input("Digite a identificação da sala: ")
     user_controller = UserController()
