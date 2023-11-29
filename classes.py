@@ -1,4 +1,6 @@
 
+import pandas as pd
+
 class SwitchCase:
     def __init__(self):
         self._cases = {}
@@ -13,5 +15,6 @@ class SwitchCase:
         if selected_function:
             selected_function()
         
+
         
         
