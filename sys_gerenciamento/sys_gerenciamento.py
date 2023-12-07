@@ -13,6 +13,7 @@ def main():
     wb = xw.Book.caller()
     sheet = wb.sheets.active.name
     sheet_gastos = wb.sheets["Gastos"]
+    sheet_salas = wb.sheets["Salas"]
     bridge = excel_connection.Bridge('C:/Users/guilh/OneDrive/Área de Trabalho/Serial Experiments/python/sys_gerenciamento/sys_gerenciamento/sys_gerenciamento.xlsm', 'mysql+mysqlconnector://root:''@localhost/sysgerenciamento')
     if(sheet == "Adicionar_Gastos"):
         try:
@@ -27,6 +28,8 @@ def main():
                 try:
                     salas = Salas()
                     salas.valor_total_sala()
+                    df_sql = bridge.exportar_sql_para_excel('sala')
+                    sheet_salas.range("A2").value = df_sql.values
                     wb.save()
                 except Exception as e:
                     print(f'Erro de {e}.')
