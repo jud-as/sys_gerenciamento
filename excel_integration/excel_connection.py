@@ -14,25 +14,16 @@ class Bridge:
         self.excel_path = excel_path
         self.string_de_conexao = string_de_conexao
     
-    def exportar_sql_para_excel(self, tabela, sheet):
+    def exportar_sql_para_excel(self, tabela):
         engine = create_engine(self.string_de_conexao)
         consulta_sql = f'SELECT * FROM {tabela}'
         df_sql = pd.read_sql(consulta_sql, con=engine)
-        
-        while True:
-            print(df_sql)
-            try:
-                with pd.ExcelWriter(
-                    path=self.excel_path,
-                    mode='a',
-                    if_sheet_exists='overlay',
-                    date_format="YYYY-MM-DD"
-                    ) as writer:
-                    df_sql.to_excel(excel_writer=writer, sheet_name=f'{sheet}', header=True, index=False)
-                break
-            except Exception as e:
-                print(f"NÃO FOI POSSÍVEL ALOCAR OS DADOS NA TABELA: {e}")
-                break
+        try:
+            pdsql_df = pd.DataFrame(df_sql)
+            return pdsql_df
+        except Exception as e:
+            print(f"NÃO FOI POSSÍVEL ALOCAR OS DADOS NA TABELA: {e}")
+            
             
         engine.dispose()
 
@@ -43,7 +34,8 @@ class Bridge:
         print(df_excel)
         try:
             df_excel.to_sql(tabela, con=engine, if_exists='append', index=False)
-            return df_excel
+            pd_df = pd.DataFrame(df_excel)
+            return pd_df
         except Exception as e:
             print(f"NÃO FOI POSSÍVEL ALOCAR OS DADOS NA TABELA: {e}")
            
