@@ -16,7 +16,11 @@ class Bridge:
     
     def exportar_sql_para_excel(self, tabela):
         engine = create_engine(self.string_de_conexao)
-        consulta_sql = f'SELECT * FROM {tabela}'
+        if(tabela == 'gasto'):
+            consulta_sql = f'SELECT * FROM {tabela} WHERE Pendente = 1'
+            consulta_historico = f'SELECT * FROM {tabela} WHERE Pendente = 0'
+        else:
+            consulta_sql = f'SELECT * FROM {tabela}'
         df_sql = pd.read_sql(consulta_sql, con=engine)
         try:
             pdsql_df = pd.DataFrame(df_sql)
@@ -27,9 +31,9 @@ class Bridge:
             
         engine.dispose()
 
-    def exportar_excel_para_sql(self, tabela):
+    def exportar_excel_para_sql(self, tabela, sheet):
         engine = create_engine(self.string_de_conexao)
-        df_excel = pd.read_excel(self.excel_path, sheet_name='Adicionar_Gastos', header=0) #Ler dados de um Excel para um dataframe do Pandas
+        df_excel = pd.read_excel(self.excel_path, sheet_name=f'{sheet}', header=0) #Ler dados de um Excel para um dataframe do Pandas
         
         print(df_excel)
         try:
