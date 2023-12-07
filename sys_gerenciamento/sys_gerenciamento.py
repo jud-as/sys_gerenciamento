@@ -24,6 +24,13 @@ def main():
                 print(df_sql)
                 time.sleep(2.5)
                 sheet_gastos.range("A2").value = df_sql.values
+                try:
+                    salas = Salas()
+                    salas.valor_total_sala()
+                    wb.save()
+                except Exception as e:
+                    print(f'Erro de {e}.')
+                    time.sleep(5.0)
             except Exception as e:
                 print(f'Erro de {e}.')
                 time.sleep(5.0)
