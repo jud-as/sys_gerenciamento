@@ -19,14 +19,13 @@ def case2():
     user_controller.atualizar_valor_sala()
     
 def case3():
-    opc = 0
-    bridge = excel_connection.Bridge('C:/Users/guilh/OneDrive/Área de Trabalho/Serial Experiments/python/sys_gerenciamento/excel_integration/teste.xlsx', 'mysql+mysqlconnector://root:''@localhost/sysgerenciamento')
+    bridge = excel_connection.Bridge('C:/Users/guilh/OneDrive/Área de Trabalho/Serial Experiments/python/sys_gerenciamento/excel_integration/teste.xlsm', 'mysql+mysqlconnector://root:''@localhost/sysgerenciamento')
     bridge.exportar_excel_para_sql('gasto')
     
 
 def case4():
-    bridge = excel_connection.Bridge('C:/Users/guilh/OneDrive/Área de Trabalho/Serial Experiments/python/sys_gerenciamento/excel_integration/teste.xlsx', 'mysql+mysqlconnector://root:''@localhost/sysgerenciamento')
-    bridge.exportar_sql_para_excel('gasto')
+    bridge = excel_connection.Bridge('C:/Users/guilh/OneDrive/Área de Trabalho/Serial Experiments/python/sys_gerenciamento/excel_integration/teste.xlsm', 'mysql+mysqlconnector://root:''@localhost/sysgerenciamento')
+    bridge.exportar_sql_para_excel('sala')
     
     
 switcher = SwitchCase()
