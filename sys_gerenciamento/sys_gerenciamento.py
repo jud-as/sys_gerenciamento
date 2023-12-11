@@ -26,7 +26,15 @@ def main():
         
 
 def remover_gastos(bridge, sheet_gastos, sheet_salas, wb):
-    pass
+    wb.save
+    try:
+        
+            
+        pass
+    except Exception as e:
+        print(f'Erro de {e}.')
+        time.sleep(2.5)
+
         
     
     
@@ -35,9 +43,13 @@ def remover_gastos(bridge, sheet_gastos, sheet_salas, wb):
        
         
 def inserir_gastos(bridge, sheet_gastos, sheet_salas, wb):
+    wb.save()
     try:
         df = bridge.exportar_excel_para_sql('gasto', 'Adicionar_Gastos')
         time.sleep(0.5)
+        if df.empty:
+            return
+        
         df_sql = bridge.exportar_sql_para_excel('gasto')
         try:
             print(df)
