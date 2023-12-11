@@ -18,7 +18,8 @@ def main():
     if(sheet == "Adicionar_Gastos"):
         inserir_gastos(bridge, sheet_gastos, sheet_salas, wb)
         
-
+    elif(sheet == "Gastos"):
+        remover_gastos(bridge, sheet_gastos, sheet_salas, wb)
     else:
         print("ERRO: Comando não especificado.")
         time.sleep(2.5)
@@ -26,11 +27,16 @@ def main():
         
 
 def remover_gastos(bridge, sheet_gastos, sheet_salas, wb):
-    wb.save
     try:
+        wb.save()
+        df = bridge.exportar_excel_para_sql('gasto', 'Gastos')
+        time.sleep(0.5)
+        if df.empty:
+            return
         
-            
-        pass
+        df_sql = bridge.exportar_sql_para_excel('gasto', 'Gastos')
+        print(df_sql)
+        time.sleep(5.0)
     except Exception as e:
         print(f'Erro de {e}.')
         time.sleep(2.5)
@@ -43,14 +49,14 @@ def remover_gastos(bridge, sheet_gastos, sheet_salas, wb):
        
         
 def inserir_gastos(bridge, sheet_gastos, sheet_salas, wb):
-    wb.save()
     try:
+        wb.save()
         df = bridge.exportar_excel_para_sql('gasto', 'Adicionar_Gastos')
         time.sleep(0.5)
         if df.empty:
             return
         
-        df_sql = bridge.exportar_sql_para_excel('gasto')
+        df_sql = bridge.exportar_sql_para_excel('gasto', 'Adicionar_Gastos')
         try:
             print(df)
             print(df_sql)
@@ -58,7 +64,7 @@ def inserir_gastos(bridge, sheet_gastos, sheet_salas, wb):
             try:
                 salas = Salas()
                 salas.valor_total_sala()
-                df_sql = bridge.exportar_sql_para_excel('sala')
+                df_sql = bridge.exportar_sql_para_excel('sala', 'Salas')
                 sheet_salas.range("A2").value = df_sql.values
                 wb.save()
             except Exception as e:
