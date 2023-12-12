@@ -16,6 +16,13 @@ class UserController:
     def atualizar_valor_sala(self):
         sala = Salas(None)
         sala.valor_total_sala()
-    
+
+    def recriar_tabela_gastos(self):
+        with estabelecer_conexao() as connection:
+            cursor = connection.cursor()
+            cursor.execute("TRUNCATE gasto")
+            connection.commit()
+        cursor = desligar_conexao()
+        
          
 

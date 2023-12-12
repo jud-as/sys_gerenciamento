@@ -17,4 +17,6 @@ class Gastos:
             cursor.execute(query, values)
             connection.commit()
             
+    
+
             

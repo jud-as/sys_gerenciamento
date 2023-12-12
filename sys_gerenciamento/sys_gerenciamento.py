@@ -31,10 +31,9 @@ def remover_gastos(bridge, sheet_gastos, sheet_salas, wb):
         wb.save()
         df = bridge.exportar_excel_para_sql('gasto', 'Gastos')
         time.sleep(0.5)
-        if df.empty:
-            return
         
-        df_sql = bridge.exportar_sql_para_excel('gasto', 'Gastos')
+        df_sql_hist, df_sql = bridge.exportar_sql_para_excel('gasto', 'Gastos')
+        print(df_sql_hist)
         print(df_sql)
         time.sleep(5.0)
     except Exception as e:

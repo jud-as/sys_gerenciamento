@@ -19,3 +19,4 @@ class Salas:
             cursor.execute("UPDATE sala SET ValorTotalGastos = (SELECT SUM(Valor) FROM gasto WHERE gasto.ID_Sala = sala.ID_Sala)")
             connection.commit()
         cursor = desligar_conexao()
+        
