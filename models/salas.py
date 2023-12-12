@@ -16,7 +16,7 @@ class Salas:
     def valor_total_sala(self):
         with estabelecer_conexao() as connection:
             cursor = connection.cursor()
-            cursor.execute("UPDATE sala SET ValorTotalGastos = (SELECT SUM(Valor) FROM gasto WHERE gasto.ID_Sala = sala.ID_Sala)")
+            cursor.execute("UPDATE sala SET ValorTotalGastos = (SELECT SUM(Valor) FROM gasto WHERE gasto.ID_Sala = sala.ID_Sala and gasto.Pendente = 1)")
             connection.commit()
         cursor = desligar_conexao()
         

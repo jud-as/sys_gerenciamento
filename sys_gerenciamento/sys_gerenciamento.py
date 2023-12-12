@@ -31,7 +31,8 @@ def remover_gastos(bridge, sheet_gastos, sheet_salas, wb):
         wb.save()
         df = bridge.exportar_excel_para_sql('gasto', 'Gastos')
         time.sleep(0.5)
-        
+        salas = Salas()
+        salas.valor_total_sala()
         df_sql_hist, df_sql = bridge.exportar_sql_para_excel('gasto', 'Gastos')
         print(df_sql_hist)
         print(df_sql)
