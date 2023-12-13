@@ -32,23 +32,26 @@ def remover_gastos(bridge, sheet_gastos, sheet_salas, sheet_hist, wb):
         #COLOCANDO DADOS NA BASE DE DADOS:
         wb.save()
         df = bridge.exportar_excel_para_sql('gasto', 'Gastos')
-        time.sleep(0.5)
+        if df.empty:
+            return
         #FAZENDO A PONTE VIA DATAFRAMES PANDAS:
         df_sql_hist, df_sql = bridge.exportar_sql_para_excel('gasto', 'Gastos')
-        
+        print("HIST: ", df_sql_hist)
+        print("GASTOS: ", df_sql)
+        time.sleep(15.0)
         #ATUALIZANDO DADOS NO EXCEL UTILIZANDO XLWINGS:
         try:
-            print(df_sql_hist)
-            print(df_sql)
             sheet_gastos.range("A2").value = df_sql.values
             sheet_hist.range("A2").value = df_sql_hist.values
-
+            wb.save()
+            
         except Exception as e:
             print(f'Erro de {e}.')
-            time.sleep(2.5)
+            time.sleep(5.5)
+            
     except Exception as e:
         print(f'Erro de {e}.')
-        time.sleep(2.5)
+        time.sleep(5.5)
 
         
 def inserir_gastos(bridge, sheet_gastos, sheet_salas, wb):

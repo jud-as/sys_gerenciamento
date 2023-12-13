@@ -54,8 +54,6 @@ class Bridge:
                 con.recriar_tabela_gastos()
                 df_completo.to_sql(tabela, con=engine, if_exists='append', index=False)
                 pd_df = pd.DataFrame(df_completo)
-                print(pd_df)
-                time.sleep(20.0)
                 return pd_df
             
             except Exception as e:
