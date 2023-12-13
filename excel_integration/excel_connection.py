@@ -1,5 +1,6 @@
 
 import pandas as pd
+import time as time
 from sqlalchemy import create_engine
 import sqlalchemy
 import sys
@@ -44,14 +45,24 @@ class Bridge:
         engine = create_engine(self.string_de_conexao)
         df_excel = pd.read_excel(self.excel_path, sheet_name=f'{sheet}', header=0) #Ler dados de um Excel para um dataframe do Pandas
         if(sheet == 'Gastos'):
-            print(df_excel)
+            consulta_sql = f'SELECT * FROM {tabela}'
+            df_sql = pd.read_sql(consulta_sql, con=engine)
             try:
+                df_completo = pd.concat([df_sql, df_excel])
+                df_completo.drop_duplicates(keep='last', subset=['ID_Gasto'], inplace=True)
                 con = UserController()
                 con.recriar_tabela_gastos()
-                df_excel.to_sql(tabela, con=engine, if_exists='append', index=False)
-                pd_df = pd.DataFrame(df_excel)
+                df_completo.to_sql(tabela, con=engine, if_exists='append', index=False)
+                pd_df = pd.DataFrame(df_completo)
+                print(pd_df)
+                time.sleep(20.0)
+                return pd_df
+            
             except Exception as e:
                 print(f"NÃO FOI POSSÍVEL ALOCAR OS DADOS NA TABELA: {e}")
+                
+            finally:
+                engine.dispose()
         else:
             try:
                 df_excel.to_sql(tabela, con=engine, if_exists='append', index=False)
