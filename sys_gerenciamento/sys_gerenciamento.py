@@ -44,8 +44,16 @@ def remover_gastos(bridge, sheet_gastos, sheet_salas, sheet_hist, wb):
             sheet_gastos.range("A2:G200").clear_contents()
             time.sleep(0.5)
             sheet_gastos.range("A2").value = df_sql.values
-            
-            
+            try:
+                salas = Salas()
+                salas.valor_total_sala()
+                df_sql = bridge.exportar_sql_para_excel('sala', 'Salas')
+                #Imprime o valor atualizado na planilha das Salas
+                sheet_salas.range("A2").value = df_sql.values
+                wb.save()
+            except Exception as e:
+                print(f'Erro de {e}.')
+                time.sleep(2.5)
         except Exception as e:
             print(f'Erro de {e}.')
             time.sleep(5.5)
@@ -60,20 +68,24 @@ def remover_gastos(bridge, sheet_gastos, sheet_salas, sheet_hist, wb):
 def inserir_gastos(bridge, sheet_gastos, sheet_salas, wb):
     try:
         wb.save()
+        #Lê a planilha e joga no Banco de Dados
         df = bridge.exportar_excel_para_sql('gasto', 'Adicionar_Gastos')
         time.sleep(0.5)
         if df.empty:
             return
         
+        #Joga os dados do sql para planilha Gastos
         df_sql = bridge.exportar_sql_para_excel('gasto', 'Adicionar_Gastos')
         try:
             print(df)
             print(df_sql)
             sheet_gastos.range("A2").value = df_sql.values
+            #Atualiza o valor total das salas baseado nos gastos adicionados
             try:
                 salas = Salas()
                 salas.valor_total_sala()
                 df_sql = bridge.exportar_sql_para_excel('sala', 'Salas')
+                #Imprime o valor atualizado na planilha das Salas
                 sheet_salas.range("A2").value = df_sql.values
                 wb.save()
             except Exception as e:
