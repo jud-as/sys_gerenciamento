@@ -28,6 +28,7 @@ class Bridge:
             if(sheet == 'Gastos'):
                 df_sql_hist = pd.read_sql(consulta_historico, con=engine)
                 pdsql_df_hist = pd.DataFrame(df_sql_hist)
+                time.sleep(0.5)
                 df_sql = pd.read_sql(consulta_sql, con=engine)
                 pdsql_df = pd.DataFrame(df_sql)
                 return pdsql_df_hist, pdsql_df

@@ -38,17 +38,20 @@ def remover_gastos(bridge, sheet_gastos, sheet_salas, sheet_hist, wb):
         df_sql_hist, df_sql = bridge.exportar_sql_para_excel('gasto', 'Gastos')
         print("HIST: ", df_sql_hist)
         print("GASTOS: ", df_sql)
-        time.sleep(15.0)
         #ATUALIZANDO DADOS NO EXCEL UTILIZANDO XLWINGS:
         try:
-            sheet_gastos.range("A2").value = df_sql.values
             sheet_hist.range("A2").value = df_sql_hist.values
-            wb.save()
+            sheet_gastos.range("A2:G200").clear_contents()
+            time.sleep(0.5)
+            sheet_gastos.range("A2").value = df_sql.values
+            
             
         except Exception as e:
             print(f'Erro de {e}.')
             time.sleep(5.5)
             
+        wb.save()
+        
     except Exception as e:
         print(f'Erro de {e}.')
         time.sleep(5.5)
